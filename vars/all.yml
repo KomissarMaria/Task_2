@@ -1,0 +1,43 @@
+---
+# parameters: region, keypair, aws_keys and AMI 
+ec2_region: us-west-2
+instances_keypair: MyKeyPair
+image_id: ami-a58d0dc5
+ec2_access_key: AKIAIKZKYUZXRLOMPJHQ 
+ec2_secret_key: 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 
+
+
+# security groups
+security_groups:
+  - name: ssh
+    desc: the security group for the jumphost
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+
+  - name: web
+    desc: the security group for the web server 
+    rules:
+      - proto: tcp
+        from_port: "80"
+        to_port: "80"
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: "443"
+        to_port: "443"
+        cidr_ip: 0.0.0.0/0
+  
+# Instance
+ec2_instances:
+  - instance_type: t2.micro
+    image: "{{ image_id }}"
+    assign_public_ip: true
+    keypair: "{{ instances_keypair }}"
+    group: ['web', 'ssh'] 
+    instance_tags: 
+        Name: Create_with_Ansible
+    exact_count: 1
+    count_tag: 
+        Name: Create_with_Ansible

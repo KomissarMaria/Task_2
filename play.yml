@@ -1,0 +1,17 @@
+---
+- name: Provision ec2 instances based on the environment
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  vars_files:
+    - vars/all.yml
+
+  roles:
+    - ec2
+    #- tomcat
+    #- oracle
+    #- mysql
+
+
+  
